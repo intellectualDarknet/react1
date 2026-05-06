@@ -1,0 +1,27 @@
+.grid {
+  min-width: 100%;
+  display: flex
+}
+
+.grid_header {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  flex-direction: column
+}
+
+.grid_day {
+  width: 100%;
+}
+
+.grid_week_day {
+  flex: 0 1 14.28%;
+}
+
+.grid_hours {
+  flex: 0 1 5%;
+}
+
+.grid_tablet {
+  width: 100%
+}
