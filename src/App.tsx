@@ -1,13 +1,15 @@
-import { createContext, useContext, useReducer, useState } from "react";
+import { createContext, useContext, useReducer, useState, useEffect } from "react";
 import TodoColumn from "./components/todocolumn/todocolumn";
 import './App.css';
 import { useDispatchContext, useStateContext } from ".";
 
 function App() {
   const [showInput, setShowInput] = useState(false)
-  const [coordinates, setCoordinates] = useState({ x: 0, y: 0 })
-  const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(null)
-  const [initialCoordinates, setInitialCoordinates] = useState({ x: 0, y: 0 })
+  const [draggedTaskId, setDraggedTaskId] = useState<string | null>(null)
+  const [draggedColumnId, setDraggedColumnId] = useState<string | null>(null)
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [initialMousePos, setInitialMousePos] = useState({ x: 0, y: 0 })
+  const [draggedTaskName, setDraggedTaskName] = useState<string | null>(null)
   
   const state = useStateContext();
   const dispatch = useDispatchContext();
@@ -21,48 +23,84 @@ function App() {
   }
 
   function mouseDownFn(e: React.MouseEvent<HTMLElement>) {
-    if (!selectedElement) {
+    if (!draggedTaskId) {
       const element = (e.target as HTMLElement)
-      const closest = element.closest('.task')  as HTMLElement | null
+      const closest = element.closest('.task') as HTMLElement | null
 
       if (closest) {
-        closest.style.position = 'relative'
-        setSelectedElement(closest)
-        setInitialCoordinates({ x: e.clientX, y: e.clientY })
+        const taskId = closest.getAttribute('data-id')
+        const columnId = closest.getAttribute('data-column-id')
+        const taskName = closest.getAttribute('data-name')
+        
+        setDraggedTaskId(taskId)
+        setDraggedColumnId(columnId)
+        setDraggedTaskName(taskName)
+        setInitialMousePos({ x: e.clientX, y: e.clientY })
+        setDragOffset({ x: 0, y: 0 })
       }
     }
   }
 
-  function coordinatesFn(e: React.MouseEvent<HTMLElement>) {
-    // console.log('coordinates:', { x: e.clientX, y: e.clientY });
-    setCoordinates({ x: e.clientX, y: e.clientY })
-    if (selectedElement) {
-      selectedElement.style.left = e.clientX + 'px'
-      selectedElement.style.top = e.clientY + 'px'
-    }
-  }
+  // Attach/detach document listeners only when dragging
+  useEffect(() => {
+    if (!draggedTaskId) return;
 
-  function onMouseUpFn(e: React.MouseEvent<HTMLElement>) {
-    if (selectedElement) {
+    function coordinatesFn(e: MouseEvent) {
+      const offsetX = e.clientX - initialMousePos.x
+      const offsetY = e.clientY - initialMousePos.y
+      setDragOffset({ x: offsetX, y: offsetY })
+    }
+
+    function onMouseUpFn(e: MouseEvent) {
       const element = (e.target as HTMLElement)
-      const closest = element.closest('.column')  as HTMLElement | null
-      const closestTask = element.closest('.task')  as HTMLElement | null
-        if (closest?.getAttribute('data-id') !== selectedElement.getAttribute('data-id')) {
-          // dispatch({ type: 'addNewTask', payload: { columnId: closest?.getAttribute('data-id'), taskName: selectedElement.getAttribute('data-name') } })
-          console.log({ fromColumnId: selectedElement.getAttribute('data-column-id'), toColumnId: closest?.getAttribute('data-id'), taskId: selectedElement.getAttribute('data-id') })
-          dispatch({ type: 'moveTask', payload: { fromColumnId: selectedElement.getAttribute('data-column-id'), toColumnId: closest?.getAttribute('data-id'), taskId: selectedElement.getAttribute('data-id'), taskName: selectedElement.getAttribute('data-name') } })
-        }
+      const closest = element.closest('.column') as HTMLElement | null
 
-          selectedElement.style.position = 'static'
-          setSelectedElement(null)
+      if (closest?.getAttribute('data-id') !== draggedColumnId) {
+        console.log({ 
+          fromColumnId: draggedColumnId, 
+          toColumnId: closest?.getAttribute('data-id'), 
+          taskId: draggedTaskId 
+        })
+        dispatch({ 
+          type: 'moveTask', 
+          payload: { 
+            fromColumnId: draggedColumnId, 
+            toColumnId: closest?.getAttribute('data-id'), 
+            taskId: draggedTaskId, 
+            taskName: draggedTaskName 
+          } 
+        })
       }
-  }
+
+      setDraggedTaskId(null)
+      setDraggedColumnId(null)
+      setDragOffset({ x: 0, y: 0 })
+      setDraggedTaskName(null)
+    }
+
+    document.addEventListener('mousemove', coordinatesFn)
+    document.addEventListener('mouseup', onMouseUpFn)
+
+    return () => {
+      document.removeEventListener('mousemove', coordinatesFn)
+      document.removeEventListener('mouseup', onMouseUpFn)
+    }
+  }, [draggedTaskId, draggedColumnId, initialMousePos, draggedTaskName, dispatch])
 
   return (
-      <div className="App" onMouseDown={mouseDownFn} onMouseMove={coordinatesFn} onMouseUp={onMouseUpFn}>
+      <div className="App" onMouseDown={mouseDownFn}>
         {/* <Header />
         <Content/> */}
-        {state.records.length > 0 && state.records.map(record => <TodoColumn key={record.id} tasks={record.tasks} name={record.name} dataId={record.id} />)}
+        {state.records.length > 0 && state.records.map(record => (
+          <TodoColumn 
+            key={record.id} 
+            tasks={record.tasks} 
+            name={record.name} 
+            dataId={record.id}
+            draggedTaskId={draggedTaskId}
+            dragOffset={dragOffset}
+          />
+        ))}
         <div className = "addButton">
           {!showInput && <button onClick={() => setShowInput(true)}>
             Toggle Burger

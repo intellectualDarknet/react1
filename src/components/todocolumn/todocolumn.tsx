@@ -3,7 +3,7 @@ import TodoTask from "../todotask/todotask";
 import "./todocolumn.css";
 import { useDispatchContext, useStateContext } from "../..";
 
-export default function TodoColumn({ name, dataId, tasks }: { name: string; dataId: string; tasks: {name: string, id: string}[] }) {
+export default function TodoColumn({ name, dataId, tasks, draggedTaskId, dragOffset }: { name: string; dataId: string; tasks: {name: string, id: string}[]; draggedTaskId: string | null; dragOffset: { x: number; y: number } }) {
   const dispatch = useDispatchContext();
   const [isshowForm, setShowForm] = React.useState(false);
   
@@ -25,7 +25,7 @@ export default function TodoColumn({ name, dataId, tasks }: { name: string; data
     <div className="column" data-id={dataId}>
       <h2>{name}</h2>
       {tasks.length > 0 && tasks.map(task => (
-        <TodoTask key={task.id} id2={task.id} name={task.name} columnId={dataId} />
+        <TodoTask key={task.id} id2={task.id} name={task.name} columnId={dataId} isDragged={draggedTaskId === task.id} dragOffset={dragOffset} />
       ))}
       {!isshowForm && (
         <button className="column_add_task" onClick={showForm}>

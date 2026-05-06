@@ -1,0 +1,156 @@
+{
+  "version": "6.0",
+  "nxVersion": "22.7.1",
+  "pathMappings": {},
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".gitignore",
+        "hash": "5403484524555424706"
+      },
+      {
+        "file": "README.md",
+        "hash": "17911282315018038361"
+      },
+      {
+        "file": "intexindex.html",
+        "hash": "10464690381984814321"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "9842248676744414212"
+      },
+      {
+        "file": "package.json",
+        "hash": "10888063002245571107"
+      },
+      {
+        "file": "public/favicon.ico",
+        "hash": "2949791817221603359"
+      },
+      {
+        "file": "public/index.html",
+        "hash": "13308863839730475495"
+      },
+      {
+        "file": "public/logo192.png",
+        "hash": "7585273181698778288"
+      },
+      {
+        "file": "public/logo512.png",
+        "hash": "9339365414554387981"
+      },
+      {
+        "file": "public/manifest.json",
+        "hash": "1447645250373428393"
+      },
+      {
+        "file": "public/robots.txt",
+        "hash": "2790380794362165217"
+      },
+      {
+        "file": "src/App.css",
+        "hash": "11130499058573053724"
+      },
+      {
+        "file": "src/App.test.tsx",
+        "hash": "9515502254003067873"
+      },
+      {
+        "file": "src/App.tsx",
+        "hash": "9781521359742898053"
+      },
+      {
+        "file": "src/components/accordeon/accordeon.tsx",
+        "hash": "6099179002243272473"
+      },
+      {
+        "file": "src/components/accordeon/data.ts",
+        "hash": "8191184748282093244"
+      },
+      {
+        "file": "src/components/accordeon/styles.css",
+        "hash": "11311180950352650499"
+      },
+      {
+        "file": "src/components/calendar/calendar.css",
+        "hash": "337144646175745902"
+      },
+      {
+        "file": "src/components/calendar/calendar.tsx",
+        "hash": "1386656119460314516"
+      },
+      {
+        "file": "src/components/content/content.css",
+        "hash": "9880473164862962229"
+      },
+      {
+        "file": "src/components/content/content.tsx",
+        "hash": "12405181755055873036"
+      },
+      {
+        "file": "src/components/grid/grid.css",
+        "hash": "10121028104798450928"
+      },
+      {
+        "file": "src/components/grid/grid.tsx",
+        "hash": "15790761497229676309"
+      },
+      {
+        "file": "src/components/header/header.css",
+        "hash": "5751869102007159009"
+      },
+      {
+        "file": "src/components/header/header.tsx",
+        "hash": "134320873319524033"
+      },
+      {
+        "file": "src/components/todocolumn/todocolumn.css",
+        "hash": "15799805231954811531"
+      },
+      {
+        "file": "src/components/todocolumn/todocolumn.tsx",
+        "hash": "7775934540069222313"
+      },
+      {
+        "file": "src/components/todotask/todotask.css",
+        "hash": "12340280384172960734"
+      },
+      {
+        "file": "src/components/todotask/todotask.tsx",
+        "hash": "10885523151605036724"
+      },
+      {
+        "file": "src/index.css",
+        "hash": "14056909652331273425"
+      },
+      {
+        "file": "src/index.tsx",
+        "hash": "6848242520424623741"
+      },
+      {
+        "file": "src/logo.svg",
+        "hash": "5137778160416929466"
+      },
+      {
+        "file": "src/react-app-env.d.ts",
+        "hash": "3195158367843515590"
+      },
+      {
+        "file": "src/reportWebVitals.ts",
+        "hash": "4905365886999342103"
+      },
+      {
+        "file": "src/setupTests.ts",
+        "hash": "16903885983588411080"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "3664978063588679595"
+      }
+    ]
+  },
+  "externalNodesHash": "14891110000443115646"
+}
